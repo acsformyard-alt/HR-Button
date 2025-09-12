@@ -127,15 +127,20 @@
         const ACTION = 'https://intranet.company.com/hr/report';
         const ACTION = 'tel:+12085550123';
     */
-    function buildMailTo({ to = '', cc = '', subject = '', body = '', imageUrl = '' }) {
+    function buildMailTo({ to = '', cc = '', subject = '', body = '', imageUrl = '', html = false }) {
       let bodyContent = body;
       if (imageUrl) {
-        bodyContent += `\n${imageUrl}`;
+        if (html) {
+          bodyContent += `<br><img src="${imageUrl}" alt="" />`;
+        } else {
+          bodyContent += `\n${imageUrl}`;
+        }
       }
       const params = [];
       if (cc) params.push(`cc=${encodeURIComponent(cc)}`);
       if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
       if (bodyContent) params.push(`body=${encodeURIComponent(bodyContent)}`);
+      if (html) params.push('content-type=text/html');
       const query = params.join('&');
       return `mailto:${to}${query ? `?${query}` : ''}`;
     }
@@ -148,9 +153,10 @@
       const action = buildMailTo({
         to: '',
         cc: '',
-        subject: `${name} is a NASTY boy`,
-        body: `${name} is a nasty little pervert. `,
-        imageUrl: 'https://th.bing.com/th/id/OIP.6vUaMEbRl2p1FRhwKepbGAHaJs?w=139&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+        subject: `${name} incident report`,
+        body: `${name} had an incident`,
+        imageUrl: 'https://via.placeholder.com/150',
+        html: true,
       });
       if (action && action !== '#') {
         window.location.href = action;
