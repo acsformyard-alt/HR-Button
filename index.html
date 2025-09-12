@@ -127,19 +127,17 @@
         const ACTION = 'https://intranet.company.com/hr/report';
         const ACTION = 'tel:+12085550123';
     */
-    function buildMailTo({ to = '', cc = '', subject = '', body = '', imageUrl = '', isHtml = false }) {
+    function buildMailTo({ to = '', cc = '', subject = '', body = '', imageUrl = '' }) {
       let bodyContent = body;
       if (imageUrl) {
-        bodyContent += isHtml ? `<br><img src="${imageUrl}" alt="" />` : `\n${imageUrl}`;
+        bodyContent += `\n${imageUrl}`;
       }
-      if (isHtml) {
-        bodyContent = `<html><body>${bodyContent}</body></html>`;
-      }
-      const params = new URLSearchParams();
-      if (cc) params.set('cc', cc);
-      if (subject) params.set('subject', subject);
-      if (bodyContent) params.set('body', bodyContent);
-      return `mailto:${to}?${params.toString()}`;
+      const params = [];
+      if (cc) params.push(`cc=${encodeURIComponent(cc)}`);
+      if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
+      if (bodyContent) params.push(`body=${encodeURIComponent(bodyContent)}`);
+      const query = params.join('&');
+      return `mailto:${to}${query ? `?${query}` : ''}`;
     }
 
     const btn = document.getElementById('reportBtn');
@@ -150,10 +148,9 @@
       const action = buildMailTo({
         to: '',
         cc: '',
-        subject: `${name} is a NASTY boy`,
-        body: `${name} is a nasty little pervert!`,
-        imageUrl: 'https://th.bing.com/th/id/OIP.6vUaMEbRl2p1FRhwKepbGAHaJs?w=139&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-        isHtml: true,
+        subject: `${name} incident report`,
+        body: `${name} had an incident`,
+        imageUrl: 'https://via.placeholder.com/150',
       });
       if (action && action !== '#') {
         window.location.href = action;
