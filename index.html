@@ -16,21 +16,30 @@
       --text: #fff;
     }
     html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--text);
-      background:
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background:
         radial-gradient(1200px 700px at 20% 10%, #1f2937 0%, transparent 60%),
         radial-gradient(1000px 600px at 80% 90%, #111827 0%, transparent 60%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
       display: grid;
       place-items: center;
       min-height: 100dvh;
-      overflow: hidden;
-    }
-    .btn-base {
-      width: clamp(24rem, 60vw, 33rem);
+        overflow: hidden;
+      }
+      .report-field {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 1.25rem;
+      }
+      .report-field input {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+      }
+      .btn-base {
+        width: clamp(24rem, 60vw, 33rem);
       height: clamp(24rem, 60vw, 33rem);
       border-radius: 50%;
       background: radial-gradient(circle at 50% 30%, #f9fafb 0%, #d1d5db 40%, #9ca3af 70%, #6b7280 100%);
@@ -99,6 +108,11 @@
   </style>
 </head>
 <body>
+  <div class="report-field">
+    <label for="whoInput">Who are you reporting?</label>
+    <input id="whoInput" type="text" />
+  </div>
+
   <div class="btn-base">
     <button class="btn" id="reportBtn" aria-label="Report to HR" title="Report to HR">
       REPORT TO HR
@@ -113,13 +127,36 @@
         const ACTION = 'https://intranet.company.com/hr/report';
         const ACTION = 'tel:+12085550123';
     */
-    const ACTION = 'mailto:?subject=Placeholder%20Subject&body=Placeholder%20body';
+    function buildMailTo({ to = '', cc = '', subject = '', body = '', imageUrl = '', isHtml = false }) {
+      let bodyContent = body;
+      if (imageUrl) {
+        bodyContent += isHtml ? `<br><img src="${imageUrl}" alt="" />` : `\n${imageUrl}`;
+      }
+      if (isHtml) {
+        bodyContent = `<html><body>${bodyContent}</body></html>`;
+      }
+      const params = new URLSearchParams();
+      if (cc) params.set('cc', cc);
+      if (subject) params.set('subject', subject);
+      if (bodyContent) params.set('body', bodyContent);
+      return `mailto:${to}?${params.toString()}`;
+    }
 
     const btn = document.getElementById('reportBtn');
+    const whoInput = document.getElementById('whoInput');
 
     function go() {
-      if (ACTION && ACTION !== '#') {
-        window.location.href = ACTION;
+      const name = whoInput.value.trim();
+      const action = buildMailTo({
+        to: '',
+        cc: '',
+        subject: `${name} is a NASTY boy`,
+        body: `${name} is a nasty little pervert!`,
+        imageUrl: 'https://th.bing.com/th/id/OIP.6vUaMEbRl2p1FRhwKepbGAHaJs?w=139&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+        isHtml: true,
+      });
+      if (action && action !== '#') {
+        window.location.href = action;
       }
     }
 
