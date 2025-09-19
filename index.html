@@ -16,33 +16,58 @@
       --text: #fff;
     }
     html, body { height: 100%; }
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--text);
-      background:
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        color: var(--text);
+        background:
         radial-gradient(1200px 700px at 20% 10%, #1f2937 0%, transparent 60%),
         radial-gradient(1000px 600px at 80% 90%, #111827 0%, transparent 60%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
       display: grid;
       place-items: center;
       min-height: 100dvh;
-      overflow: hidden;
+        overflow: hidden;
+      }
+      .report-field {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 1.25rem;
+      }
+      .report-field input {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+      }
+      .btn-base {
+        width: clamp(24rem, 60vw, 33rem);
+      height: clamp(24rem, 60vw, 33rem);
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 30%, #f9fafb 0%, #d1d5db 40%, #9ca3af 70%, #6b7280 100%);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .btn {
       font-weight: 900;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      font-size: clamp(1.25rem, 4vw + 0.5rem, 3rem);
-      padding: clamp(1rem, 2.5vw, 1.75rem) clamp(2rem, 6vw, 4rem);
+      font-size: clamp(2rem, 6vw + 1rem, 4rem);
+      width: 80%;
+      height: 80%;
       color: #fff;
-      background: linear-gradient(180deg, var(--accent), var(--accent-600));
+      background: radial-gradient(circle at 50% 35%, var(--accent) 0%, var(--accent-600) 65%, var(--accent-700) 100%);
       border: none;
-      border-radius: 1.25rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
       box-shadow:
-        0 10px 30px rgba(220, 38, 38, 0.35),
-        inset 0 -4px 0 var(--accent-700),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 8px 0 var(--accent-700),
+        0 20px 25px rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4);
       cursor: pointer;
       transition: transform 0.06s ease, box-shadow 0.15s ease, filter 0.2s ease;
       outline: none;
@@ -50,34 +75,27 @@
       user-select: none;
     }
     .btn:active {
-      transform: translateY(1px) scale(0.99);
+      transform: translateY(6px);
       box-shadow:
-        0 6px 18px rgba(220, 38, 38, 0.35),
-        inset 0 -2px 0 var(--accent-700),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 4px 0 var(--accent-700),
+        0 12px 15px rgba(0, 0, 0, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
     }
     .btn:focus-visible {
       box-shadow:
-        0 10px 30px rgba(220, 38, 38, 0.35),
+        0 8px 0 var(--accent-700),
         0 0 0 10px var(--ring),
-        inset 0 -4px 0 var(--accent-700),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        0 20px 25px rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4);
     }
-    /* Subtle pulsing glow */
-    .btn::after {
+    /* glossy highlight */
+    .btn::before {
       content: "";
       position: absolute;
-      inset: -25px;
-      border-radius: inherit;
+      inset: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 60%);
       pointer-events: none;
-      filter: blur(20px);
-      background: radial-gradient(60% 60% at 50% 40%, rgba(248, 113, 113, 0.25), transparent 70%);
-      opacity: 0.6;
-      animation: pulse 2.2s ease-in-out infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.55; }
-      50% { opacity: 0.85; }
     }
 
     /* Hover elevate on devices that support hover */
@@ -90,9 +108,16 @@
   </style>
 </head>
 <body>
-  <button class="btn" id="reportBtn" aria-label="Report to HR" title="Report to HR">
-    REPORT TO HR
-  </button>
+  <div class="report-field">
+    <label for="whoInput">Who are you reporting?</label>
+    <input id="whoInput" type="text" />
+  </div>
+
+  <div class="btn-base">
+    <button class="btn" id="reportBtn" aria-label="Report to HR" title="Report to HR">
+      REPORT TO HR
+    </button>
+  </div>
 
   <script>
     /*
@@ -102,13 +127,43 @@
         const ACTION = 'https://intranet.company.com/hr/report';
         const ACTION = 'tel:+12085550123';
     */
-    const ACTION = 'mailto:hr@example.com?subject=Incident%20Report';
+    function encodeParam(value) {
+      return encodeURIComponent(value).replace(/\+/g, '%20');
+    }
+
+    function buildMailTo({ to = '', cc = '', subject = '', body = '', imageUrl = '', html = false }) {
+      let bodyContent = body;
+      if (imageUrl) {
+        if (html) {
+          bodyContent += `<br><img src="${imageUrl}" alt="" />`;
+        } else {
+          bodyContent += `\n${imageUrl}`;
+        }
+      }
+      const params = [];
+      if (cc) params.push(`cc=${encodeParam(cc)}`);
+      if (subject) params.push(`subject=${encodeParam(subject)}`);
+      if (bodyContent) params.push(`body=${encodeParam(bodyContent)}`);
+      if (html) params.push('content-type=text/html');
+      const query = params.join('&');
+      return `mailto:${to}${query ? `?${query}` : ''}`;
+    }
 
     const btn = document.getElementById('reportBtn');
+    const whoInput = document.getElementById('whoInput');
 
     function go() {
-      if (ACTION && ACTION !== '#') {
-        window.location.href = ACTION;
+      const name = whoInput.value.trim();
+      const action = buildMailTo({
+        to: '',
+        cc: '',
+        subject: `${name} incident report`,
+        body: `${name} had an incident`,
+        imageUrl: 'https://via.placeholder.com/150',
+        html: true,
+      });
+      if (action && action !== '#') {
+        window.location.href = action;
       }
     }
 
