@@ -3,174 +3,1151 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>REPORT TO HR</title>
+  <title>Campaign Manager</title>
   <meta name="color-scheme" content="light dark" />
   <style>
     :root {
-      --bg1: #0f172a; /* slate-900 */
-      --bg2: #111827; /* gray-900 */
-      --accent: #ef4444; /* red-500 */
-      --accent-600: #dc2626; /* red-600 */
-      --accent-700: #b91c1c; /* red-700 */
-      --ring: rgba(248, 113, 113, 0.45);
-      --text: #fff;
+      color-scheme: light dark;
+      --bg: #0b1120;
+      --bg-secondary: #111c2f;
+      --panel: rgba(15, 23, 42, 0.8);
+      --panel-border: rgba(148, 163, 184, 0.2);
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-strong: #0ea5e9;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --shadow: 0 30px 80px rgba(15, 23, 42, 0.45);
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
     }
-    html, body { height: 100%; }
-      body {
-        margin: 0;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-        color: var(--text);
-        background:
-        radial-gradient(1200px 700px at 20% 10%, #1f2937 0%, transparent 60%),
-        radial-gradient(1000px 600px at 80% 90%, #111827 0%, transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      display: grid;
-      place-items: center;
-      min-height: 100dvh;
-        overflow: hidden;
-      }
-      .report-field {
-        text-align: center;
-        margin-bottom: 2rem;
-        font-size: 1.25rem;
-      }
-      .report-field input {
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-      }
-      .btn-base {
-        width: clamp(24rem, 60vw, 33rem);
-      height: clamp(24rem, 60vw, 33rem);
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 30%, #f9fafb 0%, #d1d5db 40%, #9ca3af 70%, #6b7280 100%);
-      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.12), transparent 45%),
+        radial-gradient(circle at 90% 0%, rgba(14, 197, 126, 0.1), transparent 50%),
+        linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      color: var(--text);
       display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      padding: min(5vw, 4rem) clamp(1.5rem, 6vw, 4rem);
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      text-align: left;
+      max-width: 75rem;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+
+    header p {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 45rem;
+    }
+
+    main {
+      width: 100%;
+      max-width: 78rem;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 20px;
+      padding: clamp(1.5rem, 4vw, 2.5rem);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(20px);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .actions > div {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      font-size: 0.95rem;
     }
-    .btn {
-      font-weight: 900;
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent) 0%, var(--accent-strong) 100%);
+      color: #0f172a;
+      box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 35px rgba(14, 165, 233, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(148, 163, 184, 0.12);
+      color: var(--text);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(148, 163, 184, 0.2);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.16);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.28);
+    }
+
+    .campaign-grid {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .campaign-card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 18px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .campaign-card-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+
+    .campaign-card-header > div {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .campaign-card h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -0.01em;
+    }
+
+    .campaign-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .campaign-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .campaign-meta span {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.75rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      font-size: clamp(2rem, 6vw + 1rem, 4rem);
-      width: 80%;
-      height: 80%;
-      color: #fff;
-      background: radial-gradient(circle at 50% 35%, var(--accent) 0%, var(--accent-600) 65%, var(--accent-700) 100%);
-      border: none;
-      border-radius: 50%;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      width: fit-content;
+    }
+
+    .badge--active {
+      background: rgba(45, 212, 191, 0.15);
+      color: #5eead4;
+      border-color: rgba(45, 212, 191, 0.3);
+    }
+
+    .badge--paused {
+      background: rgba(248, 250, 252, 0.06);
+      color: var(--text-muted);
+      border-color: rgba(148, 163, 184, 0.25);
+    }
+
+    .card-actions {
       display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      border: 1px dashed rgba(148, 163, 184, 0.25);
+      border-radius: 18px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .empty-state strong {
+      color: var(--text);
+    }
+
+    /* Wizard styles */
+    .wizard-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.75);
+      display: none;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
-      box-shadow:
-        0 8px 0 var(--accent-700),
-        0 20px 25px rgba(0, 0, 0, 0.4),
-        inset 0 2px 4px rgba(255, 255, 255, 0.4);
+      padding: 1.5rem;
+      z-index: 10;
+    }
+
+    .wizard-backdrop[aria-hidden="false"] {
+      display: flex;
+    }
+
+    .wizard {
+      width: min(860px, 100%);
+      max-height: min(720px, 90vh);
+      overflow: hidden;
+      background: rgba(15, 23, 42, 0.95);
+      border-radius: 24px;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 40px 80px rgba(2, 6, 23, 0.45);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .wizard header,
+    .wizard footer {
+      padding: 1.5rem 2rem;
+      background: rgba(15, 23, 42, 0.9);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .wizard footer {
+      border-top: 1px solid rgba(148, 163, 184, 0.18);
+      border-bottom: none;
+      margin-top: auto;
+    }
+
+    .wizard header h2 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    .wizard .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.75rem;
       cursor: pointer;
-      transition: transform 0.06s ease, box-shadow 0.15s ease, filter 0.2s ease;
-      outline: none;
-      position: relative;
-      user-select: none;
-    }
-    .btn:active {
-      transform: translateY(6px);
-      box-shadow:
-        0 4px 0 var(--accent-700),
-        0 12px 15px rgba(0, 0, 0, 0.4),
-        inset 0 1px 2px rgba(255, 255, 255, 0.4);
-    }
-    .btn:focus-visible {
-      box-shadow:
-        0 8px 0 var(--accent-700),
-        0 0 0 10px var(--ring),
-        0 20px 25px rgba(0, 0, 0, 0.4),
-        inset 0 2px 4px rgba(255, 255, 255, 0.4);
-    }
-    /* glossy highlight */
-    .btn::before {
-      content: "";
-      position: absolute;
-      inset: 8px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 60%);
-      pointer-events: none;
+      line-height: 1;
+      padding: 0;
     }
 
-    /* Hover elevate on devices that support hover */
-    @media (hover: hover) {
-      .btn:hover { filter: brightness(1.02); transform: translateY(-1px); }
+    .wizard-main {
+      overflow-y: auto;
+      padding: 0 2rem 2rem;
     }
 
-    /* Disable blue tap highlight on mobile */
-    * { -webkit-tap-highlight-color: transparent; }
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin: 0;
+      padding: 1.5rem 2rem 0;
+      list-style: none;
+    }
+
+    .stepper li {
+      padding: 0.75rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: border 0.2s ease, color 0.2s ease;
+    }
+
+    .stepper li[data-active="true"] {
+      border-color: rgba(56, 189, 248, 0.6);
+      color: var(--text);
+      box-shadow: 0 12px 30px rgba(14, 165, 233, 0.2);
+    }
+
+    .wizard-step {
+      display: none;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-top: 1.75rem;
+    }
+
+    .wizard-step[aria-hidden="false"] {
+      display: flex;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.65rem 0.75rem;
+      border-radius: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.75);
+      color: var(--text);
+      font: inherit;
+      resize: vertical;
+      min-height: 2.8rem;
+    }
+
+    textarea {
+      min-height: 5.5rem;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 2px solid rgba(56, 189, 248, 0.5);
+      outline-offset: 2px;
+    }
+
+    .node-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .node-item {
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-radius: 16px;
+      padding: 1.25rem;
+      background: rgba(15, 23, 42, 0.6);
+      display: grid;
+      gap: 1rem;
+    }
+
+    .node-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .node-item-header h4 {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .node-empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      border: 1px dashed rgba(148, 163, 184, 0.25);
+      border-radius: 14px;
+      color: var(--text-muted);
+    }
+
+    .review-block {
+      background: rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .review-block dl {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem 1.5rem;
+      margin: 0;
+    }
+
+    .review-block dt {
+      font-weight: 600;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .review-block dd {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 2rem 1rem;
+      }
+
+      header {
+        text-align: left;
+      }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .campaign-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .wizard header,
+      .wizard footer,
+      .wizard-main {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .stepper {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="report-field">
-    <label for="whoInput">Who are you reporting?</label>
-    <input id="whoInput" type="text" />
-  </div>
+  <header>
+    <h1>Manage Campaign Maps</h1>
+    <p>
+      Create, review, and iterate on your tactical campaign maps. Launch a new plan or dive back into an
+      existing build with the Map Creation Wizard &mdash; now with full edit support.
+    </p>
+  </header>
 
-  <div class="btn-base">
-    <button class="btn" id="reportBtn" aria-label="Report to HR" title="Report to HR">
-      REPORT TO HR
-    </button>
+  <main>
+    <section class="panel actions" aria-label="campaign controls">
+      <div>
+        <button class="btn btn-primary" id="createCampaignBtn">➕ New campaign map</button>
+        <button class="btn btn-secondary" id="refreshBtn" title="Refresh from D1">🔄 Refresh from D1</button>
+      </div>
+      <span style="color: var(--text-muted); font-size: 0.9rem;">
+        All changes are saved directly to your D1 records.
+      </span>
+    </section>
+
+    <section class="panel" aria-labelledby="campaignListTitle">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1.25rem;">
+        <div>
+          <h2 id="campaignListTitle" style="margin:0; font-size:1.4rem;">Campaign library</h2>
+          <p style="margin:0; color:var(--text-muted); font-size:0.95rem;">Browse saved maps and jump back into editing without starting over.</p>
+        </div>
+        <span id="campaignCount" class="badge badge--paused">0 maps</span>
+      </div>
+      <div class="empty-state" id="emptyState">
+        <strong>No campaign maps yet.</strong>
+        Start by creating a new campaign map. It will appear here with status, objectives, and the last update time.
+      </div>
+      <ul class="campaign-grid" id="campaignList" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <div class="wizard-backdrop" id="wizardBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="wizard" role="document">
+      <header>
+        <h2 id="wizardTitle">Create campaign map</h2>
+        <button class="close-btn" id="closeWizardBtn" type="button" aria-label="Close wizard">×</button>
+      </header>
+      <ol class="stepper" id="wizardStepper" aria-label="wizard steps">
+        <li data-step="0" data-active="true">Basics<span style="font-weight:600;">Campaign details</span></li>
+        <li data-step="1">Map layout<span style="font-weight:600;">Locations &amp; paths</span></li>
+        <li data-step="2">Review<span style="font-weight:600;">Confirm &amp; save</span></li>
+      </ol>
+      <div class="wizard-main">
+        <form id="wizardForm">
+          <section class="wizard-step" data-step="0" aria-hidden="false">
+            <div class="field-grid">
+              <label>
+                Campaign name
+                <input type="text" id="fieldName" name="name" placeholder="e.g. Winter Expansion" required />
+              </label>
+              <label>
+                Owner
+                <input type="text" id="fieldOwner" name="owner" placeholder="Who is accountable?" />
+              </label>
+              <label>
+                Status
+                <select id="fieldStatus" name="status">
+                  <option value="Active">Active</option>
+                  <option value="Paused">Paused</option>
+                  <option value="Draft">Draft</option>
+                </select>
+              </label>
+              <label>
+                Launch date
+                <input type="date" id="fieldStartDate" name="startDate" />
+              </label>
+              <label>
+                Target region
+                <input type="text" id="fieldRegion" name="region" placeholder="Territory focus" />
+              </label>
+              <label>
+                Budget window
+                <input type="text" id="fieldBudget" name="budget" placeholder="e.g. $250k - $400k" />
+              </label>
+            </div>
+            <label>
+              Objective
+              <textarea id="fieldObjective" name="objective" placeholder="Summarize the campaign goals"></textarea>
+            </label>
+            <label>
+              Success metrics
+              <textarea id="fieldMetrics" name="metrics" placeholder="KPIs and leading indicators"></textarea>
+            </label>
+          </section>
+
+          <section class="wizard-step" data-step="1" aria-hidden="true">
+            <p style="margin:0; color:var(--text-muted); font-size:0.95rem;">
+              Describe the critical touch points for this campaign. Each entry can include a location, linked teams,
+              and any blockers the field team should know about.
+            </p>
+            <div class="node-list" id="nodeList"></div>
+            <div class="node-empty" id="nodeEmptyState" hidden>
+              No touch points added yet. Add your first node to outline the campaign flow.
+            </div>
+            <button class="btn btn-secondary" type="button" id="addNodeBtn">➕ Add map node</button>
+          </section>
+
+          <section class="wizard-step" data-step="2" aria-hidden="true">
+            <div class="review-block" id="reviewBlock">
+              <h3 style="margin:0; font-size:1.2rem;">Review campaign map</h3>
+              <dl></dl>
+              <div>
+                <h4 style="margin:0 0 0.75rem 0;">Map nodes</h4>
+                <ol id="reviewNodes" style="margin:0; padding-left:1.25rem; display:grid; gap:0.65rem;"></ol>
+              </div>
+            </div>
+          </section>
+        </form>
+      </div>
+      <footer>
+        <div>
+          <button class="btn btn-secondary" type="button" id="backBtn">◀ Back</button>
+        </div>
+        <div>
+          <button class="btn btn-secondary" type="button" id="saveDraftBtn">💾 Save draft</button>
+          <button class="btn btn-primary" type="button" id="nextBtn">Next ➜</button>
+        </div>
+      </footer>
+    </div>
   </div>
 
   <script>
-    /*
-      ACTION: Set this to what you want the button to do.
-      Examples:
-        const ACTION = 'mailto:hr@example.com?subject=Incident%20Report&body=Please%20describe%20the%20issue...';
-        const ACTION = 'https://intranet.company.com/hr/report';
-        const ACTION = 'tel:+12085550123';
-    */
-    function buildMailTo({ to = '', cc = '', subject = '', body = '', imageUrl = '', html = false }) {
-      let bodyContent = body;
-      if (imageUrl) {
-        if (html) {
-          bodyContent += `<br><img src="${imageUrl}" alt="" />`;
-        } else {
-          bodyContent += `\n${imageUrl}`;
-        }
-      }
-      const params = [];
-      if (cc) params.push(`cc=${encodeURIComponent(cc)}`);
-      if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
-      if (bodyContent) params.push(`body=${encodeURIComponent(bodyContent)}`);
-      if (html) params.push('content-type=text/html');
-      const query = params.join('&');
-      return `mailto:${to}${query ? `?${query}` : ''}`;
+    const D1_KEY = "campaignMaps";
+
+    const state = {
+      campaigns: [],
+      step: 0,
+      editingId: null,
+      formData: createEmptyForm(),
+      draftSaved: false,
+    };
+
+    function createEmptyForm() {
+      return {
+        id: null,
+        name: "",
+        owner: "",
+        status: "Active",
+        startDate: "",
+        region: "",
+        budget: "",
+        objective: "",
+        metrics: "",
+        nodes: [],
+        createdAt: null,
+        updatedAt: null,
+      };
     }
 
-    const btn = document.getElementById('reportBtn');
-    const whoInput = document.getElementById('whoInput');
+    function loadFromD1() {
+      try {
+        const raw = localStorage.getItem(D1_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (error) {
+        console.error("Failed to load campaigns from D1", error);
+        return [];
+      }
+    }
 
-    function go() {
-      const name = whoInput.value.trim();
-      const action = buildMailTo({
-        to: '',
-        cc: '',
-        subject: `${name} incident report`,
-        body: `${name} had an incident`,
-        imageUrl: 'https://via.placeholder.com/150',
-        html: true,
+    function persistToD1(records) {
+      localStorage.setItem(D1_KEY, JSON.stringify(records));
+    }
+
+    function formatDate(value) {
+      if (!value) return "—";
+      try {
+        const date = new Date(value);
+        return date.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+      } catch (error) {
+        return value;
+      }
+    }
+
+    function formatRelative(value) {
+      if (!value) return "Never";
+      const diff = Date.now() - new Date(value).getTime();
+      const minutes = Math.round(diff / 60000);
+      if (minutes < 1) return "just now";
+      if (minutes < 60) return `${minutes} min ago`;
+      const hours = Math.round(minutes / 60);
+      if (hours < 24) return `${hours} hr${hours === 1 ? "" : "s"} ago`;
+      const days = Math.round(hours / 24);
+      return `${days} day${days === 1 ? "" : "s"} ago`;
+    }
+
+    function renderCampaignList() {
+      const list = document.getElementById("campaignList");
+      const emptyState = document.getElementById("emptyState");
+      const count = document.getElementById("campaignCount");
+      list.replaceChildren();
+
+      if (!state.campaigns.length) {
+        emptyState.hidden = false;
+        count.textContent = "0 maps";
+        return;
+      }
+
+      emptyState.hidden = true;
+      count.textContent = `${state.campaigns.length} map${state.campaigns.length === 1 ? "" : "s"}`;
+
+      const sorted = state.campaigns
+        .slice()
+        .sort((a, b) => new Date(b.updatedAt || b.createdAt || 0) - new Date(a.updatedAt || a.createdAt || 0));
+
+      for (const campaign of sorted) {
+        const item = document.createElement("li");
+        item.className = "campaign-card";
+        item.dataset.id = campaign.id;
+
+        const header = document.createElement("div");
+        header.className = "campaign-card-header";
+
+        const infoWrap = document.createElement("div");
+        const title = document.createElement("h3");
+        title.textContent = campaign.name || "Untitled campaign";
+        const description = document.createElement("p");
+        description.textContent = campaign.objective ? campaign.objective : "No objective provided.";
+        infoWrap.append(title, description);
+
+        const badge = document.createElement("span");
+        badge.className = campaign.status === "Active" ? "badge badge--active" : "badge badge--paused";
+        badge.textContent = campaign.status || "Draft";
+
+        header.append(infoWrap, badge);
+
+        const meta = document.createElement("div");
+        meta.className = "campaign-meta";
+
+        const owner = document.createElement("span");
+        const ownerLabel = document.createElement("strong");
+        ownerLabel.style.color = "var(--text)";
+        ownerLabel.textContent = "Owner";
+        const ownerValue = document.createElement("span");
+        ownerValue.textContent = campaign.owner || "—";
+        owner.append(ownerLabel, ownerValue);
+
+        const launch = document.createElement("span");
+        const launchLabel = document.createElement("strong");
+        launchLabel.style.color = "var(--text)";
+        launchLabel.textContent = "Launch";
+        const launchValue = document.createElement("span");
+        launchValue.textContent = formatDate(campaign.startDate);
+        launch.append(launchLabel, launchValue);
+
+        const region = document.createElement("span");
+        const regionLabel = document.createElement("strong");
+        regionLabel.style.color = "var(--text)";
+        regionLabel.textContent = "Region";
+        const regionValue = document.createElement("span");
+        regionValue.textContent = campaign.region || "—";
+        region.append(regionLabel, regionValue);
+
+        const nodes = document.createElement("span");
+        const nodesLabel = document.createElement("strong");
+        nodesLabel.style.color = "var(--text)";
+        nodesLabel.textContent = "Nodes";
+        const nodesValue = document.createElement("span");
+        nodesValue.textContent = String(campaign.nodes.length);
+        nodes.append(nodesLabel, nodesValue);
+
+        meta.append(owner, launch, region, nodes);
+
+        const timestamps = document.createElement("p");
+        timestamps.style.margin = "0";
+        timestamps.style.color = "var(--text-muted)";
+        timestamps.style.fontSize = "0.8rem";
+        timestamps.textContent = `Updated ${formatRelative(campaign.updatedAt || campaign.createdAt)} • Created ${formatDate(
+          campaign.createdAt
+        )}`;
+
+        const actions = document.createElement("div");
+        actions.className = "card-actions";
+        const editBtn = document.createElement("button");
+        editBtn.className = "btn btn-secondary";
+        editBtn.type = "button";
+        editBtn.dataset.action = "edit";
+        editBtn.textContent = "✏️ Edit map";
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "btn btn-danger";
+        deleteBtn.type = "button";
+        deleteBtn.dataset.action = "delete";
+        deleteBtn.textContent = "🗑 Delete";
+        actions.append(editBtn, deleteBtn);
+
+        item.append(header, meta, timestamps, actions);
+        list.append(item);
+      }
+    }
+
+    function syncNodeEmptyState() {
+      const nodes = state.formData.nodes;
+      const empty = document.getElementById("nodeEmptyState");
+      const list = document.getElementById("nodeList");
+      empty.hidden = Boolean(nodes.length);
+      list.hidden = !nodes.length;
+    }
+
+    function renderNodeList() {
+      const list = document.getElementById("nodeList");
+      list.replaceChildren();
+
+      state.formData.nodes.forEach((node, index) => {
+        const wrapper = document.createElement("div");
+        wrapper.className = "node-item";
+        wrapper.dataset.index = index;
+
+        const header = document.createElement("div");
+        header.className = "node-item-header";
+
+        const heading = document.createElement("h4");
+        heading.textContent = `Node ${index + 1}`;
+
+        const removeBtn = document.createElement("button");
+        removeBtn.type = "button";
+        removeBtn.className = "btn btn-danger";
+        removeBtn.dataset.action = "remove-node";
+        removeBtn.textContent = "Remove";
+
+        header.append(heading, removeBtn);
+
+        const grid = document.createElement("div");
+        grid.className = "field-grid";
+
+        const titleLabel = document.createElement("label");
+        titleLabel.append("Title");
+        const titleInput = document.createElement("input");
+        titleInput.type = "text";
+        titleInput.name = "title";
+        titleInput.placeholder = "Touch point name";
+        titleInput.value = node.title || "";
+        titleLabel.appendChild(titleInput);
+
+        const coordLabel = document.createElement("label");
+        coordLabel.append("Coordinates");
+        const coordInput = document.createElement("input");
+        coordInput.type = "text";
+        coordInput.name = "coordinates";
+        coordInput.placeholder = "e.g. HQ, Channel";
+        coordInput.value = node.coordinates || "";
+        coordLabel.appendChild(coordInput);
+
+        grid.append(titleLabel, coordLabel);
+
+        const notesLabel = document.createElement("label");
+        notesLabel.append("Notes");
+        const notesInput = document.createElement("textarea");
+        notesInput.name = "notes";
+        notesInput.placeholder = "Context, dependencies, or blockers";
+        notesInput.value = node.notes || "";
+        notesLabel.appendChild(notesInput);
+
+        wrapper.append(header, grid, notesLabel);
+        list.append(wrapper);
       });
-      if (action && action !== '#') {
-        window.location.href = action;
+
+      syncNodeEmptyState();
+    }
+
+    function updateFormFields() {
+      document.getElementById("fieldName").value = state.formData.name;
+      document.getElementById("fieldOwner").value = state.formData.owner;
+      const statusField = document.getElementById("fieldStatus");
+      const statusOptions = Array.from(statusField.options).map((option) => option.value);
+      if (!statusOptions.includes(state.formData.status)) {
+        state.formData.status = "Active";
+      }
+      statusField.value = state.formData.status || "Active";
+      document.getElementById("fieldStartDate").value = state.formData.startDate || "";
+      document.getElementById("fieldRegion").value = state.formData.region;
+      document.getElementById("fieldBudget").value = state.formData.budget;
+      document.getElementById("fieldObjective").value = state.formData.objective;
+      document.getElementById("fieldMetrics").value = state.formData.metrics;
+      renderNodeList();
+    }
+
+    function captureFormFields() {
+      state.formData.name = document.getElementById("fieldName").value.trim();
+      state.formData.owner = document.getElementById("fieldOwner").value.trim();
+      state.formData.status = document.getElementById("fieldStatus").value;
+      state.formData.startDate = document.getElementById("fieldStartDate").value;
+      state.formData.region = document.getElementById("fieldRegion").value.trim();
+      state.formData.budget = document.getElementById("fieldBudget").value.trim();
+      state.formData.objective = document.getElementById("fieldObjective").value.trim();
+      state.formData.metrics = document.getElementById("fieldMetrics").value.trim();
+    }
+
+    function validateStep(step) {
+      if (step === 0) {
+        captureFormFields();
+        if (!state.formData.name) {
+          alert("Campaign name is required");
+          return false;
+        }
+        return true;
+      }
+      if (step === 1) {
+        if (!state.formData.nodes.length) {
+          alert("Add at least one map node to continue.");
+          return false;
+        }
+        return true;
+      }
+      return true;
+    }
+
+    function setStep(step) {
+      state.step = Math.max(0, Math.min(2, step));
+      document.querySelectorAll(".wizard-step").forEach((section) => {
+        const isActive = Number(section.dataset.step) === state.step;
+        section.setAttribute("aria-hidden", String(!isActive));
+      });
+      document.querySelectorAll(".stepper li").forEach((item) => {
+        item.dataset.active = String(Number(item.dataset.step) === state.step);
+      });
+
+      const backBtn = document.getElementById("backBtn");
+      backBtn.disabled = state.step === 0;
+
+      const nextBtn = document.getElementById("nextBtn");
+      nextBtn.textContent = state.step === 2 ? "Save map" : "Next ➜";
+    }
+
+    function populateReview() {
+      const reviewBlock = document.getElementById("reviewBlock");
+      const details = reviewBlock.querySelector("dl");
+      details.replaceChildren();
+
+      const detailEntries = [
+        { label: "Campaign", value: state.formData.name || "Untitled" },
+        { label: "Status", value: state.formData.status || "Draft" },
+        { label: "Owner", value: state.formData.owner || "—" },
+        { label: "Launch date", value: formatDate(state.formData.startDate) },
+        { label: "Region", value: state.formData.region || "—" },
+        { label: "Budget", value: state.formData.budget || "—" },
+        { label: "Objective", value: state.formData.objective || "—", fullWidth: true },
+        { label: "Success metrics", value: state.formData.metrics || "—", fullWidth: true },
+      ];
+
+      for (const entry of detailEntries) {
+        const wrapper = document.createElement("div");
+        if (entry.fullWidth) {
+          wrapper.style.gridColumn = "1 / -1";
+        }
+        const dt = document.createElement("dt");
+        dt.textContent = entry.label;
+        const dd = document.createElement("dd");
+        dd.textContent = entry.value;
+        wrapper.append(dt, dd);
+        details.append(wrapper);
+      }
+
+      const reviewNodes = document.getElementById("reviewNodes");
+      reviewNodes.replaceChildren();
+      state.formData.nodes.forEach((node) => {
+        const li = document.createElement("li");
+        const title = document.createElement("strong");
+        title.textContent = node.title || "Untitled node";
+        const coords = document.createElement("div");
+        coords.style.color = "var(--text-muted)";
+        coords.style.fontSize = "0.85rem";
+        coords.textContent = node.coordinates || "No coordinates";
+        const notes = document.createElement("div");
+        notes.style.marginTop = "0.35rem";
+        notes.textContent = node.notes || "";
+        li.append(title, coords, notes);
+        reviewNodes.append(li);
+      });
+    }
+
+    function openWizard(existingId = null) {
+      state.editingId = existingId;
+      state.step = 0;
+      document.getElementById("wizardBackdrop").setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+
+      if (existingId) {
+        const record = state.campaigns.find((campaign) => campaign.id === existingId);
+        if (record) {
+          state.formData = JSON.parse(JSON.stringify(record));
+          document.getElementById("wizardTitle").textContent = "Edit campaign map";
+        }
+      } else {
+        state.formData = createEmptyForm();
+        document.getElementById("wizardTitle").textContent = "Create campaign map";
+      }
+
+      updateFormFields();
+      setStep(0);
+      state.draftSaved = false;
+    }
+
+    function closeWizard() {
+      document.getElementById("wizardBackdrop").setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "auto";
+      state.formData = createEmptyForm();
+      state.editingId = null;
+      state.step = 0;
+      state.draftSaved = false;
+    }
+
+    function generateId() {
+      return crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2);
+    }
+
+    function saveCampaign({ finalize = false } = {}) {
+      captureFormFields();
+      const now = new Date().toISOString();
+      const record = {
+        ...state.formData,
+        updatedAt: now,
+      };
+
+      if (!record.createdAt) {
+        record.createdAt = now;
+      }
+
+      if (!record.id) {
+        record.id = generateId();
+      }
+
+      const index = state.campaigns.findIndex((c) => c.id === record.id);
+      if (index >= 0) {
+        state.campaigns[index] = record;
+      } else {
+        state.campaigns.push(record);
+      }
+
+      persistToD1(state.campaigns);
+      renderCampaignList();
+
+      if (finalize) {
+        closeWizard();
+      } else {
+        state.formData = JSON.parse(JSON.stringify(record));
+        updateFormFields();
+        state.draftSaved = true;
       }
     }
 
-    btn.addEventListener('click', go);
-    // Ensure Space triggers click on all browsers
-    btn.addEventListener('keydown', (e) => {
-      if (e.code === 'Space') {
-        e.preventDefault();
-        go();
+    function deleteCampaign(id) {
+      if (!confirm("Delete this campaign map? This cannot be undone.")) return;
+      state.campaigns = state.campaigns.filter((campaign) => campaign.id !== id);
+      persistToD1(state.campaigns);
+      renderCampaignList();
+    }
+
+    function handleNext() {
+      if (state.step === 2) {
+        saveCampaign({ finalize: true });
+        return;
+      }
+
+      if (!validateStep(state.step)) return;
+
+      if (state.step === 1) {
+        populateReview();
+      }
+
+      setStep(state.step + 1);
+      if (state.step === 2) {
+        populateReview();
+      }
+    }
+
+    function handleBack() {
+      if (state.step > 0) {
+        setStep(state.step - 1);
+      }
+    }
+
+    function handleSaveDraft() {
+      saveCampaign({ finalize: false });
+      alert("Draft saved to D1.");
+    }
+
+    document.getElementById("createCampaignBtn").addEventListener("click", () => openWizard());
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+      state.campaigns = loadFromD1();
+      renderCampaignList();
+    });
+    document.getElementById("closeWizardBtn").addEventListener("click", closeWizard);
+    document.getElementById("backBtn").addEventListener("click", handleBack);
+    document.getElementById("nextBtn").addEventListener("click", handleNext);
+    document.getElementById("saveDraftBtn").addEventListener("click", handleSaveDraft);
+
+    document.getElementById("wizardBackdrop").addEventListener("click", (event) => {
+      if (event.target === event.currentTarget) {
+        closeWizard();
       }
     });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && document.getElementById("wizardBackdrop").getAttribute("aria-hidden") === "false") {
+        closeWizard();
+      }
+    });
+
+    document.getElementById("campaignList").addEventListener("click", (event) => {
+      const action = event.target.closest("button[data-action]");
+      if (!action) return;
+      const id = action.closest("li").dataset.id;
+      if (action.dataset.action === "edit") {
+        openWizard(id);
+      } else if (action.dataset.action === "delete") {
+        deleteCampaign(id);
+      }
+    });
+
+    document.getElementById("addNodeBtn").addEventListener("click", () => {
+      state.formData.nodes.push({ title: "", coordinates: "", notes: "" });
+      renderNodeList();
+      if (state.step === 2) {
+        populateReview();
+      }
+    });
+
+    document.getElementById("nodeList").addEventListener("input", (event) => {
+      const wrapper = event.target.closest(".node-item");
+      if (!wrapper) return;
+      const index = Number(wrapper.dataset.index);
+      const field = event.target.name;
+      state.formData.nodes[index][field] = event.target.value;
+      if (state.step === 2) {
+        populateReview();
+      }
+    });
+
+    document.getElementById("nodeList").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-action=remove-node]");
+      if (!button) return;
+      const wrapper = button.closest(".node-item");
+      const index = Number(wrapper.dataset.index);
+      state.formData.nodes.splice(index, 1);
+      renderNodeList();
+      if (state.step === 2) {
+        populateReview();
+      }
+    });
+
+    document.getElementById("wizardForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+
+    document.getElementById("wizardForm").addEventListener("change", () => {
+      if (state.step === 2) {
+        populateReview();
+      }
+    });
+
+    // Load initial data from D1 when the page boots
+    state.campaigns = loadFromD1();
+    renderCampaignList();
+    syncNodeEmptyState();
   </script>
 </body>
 </html>
